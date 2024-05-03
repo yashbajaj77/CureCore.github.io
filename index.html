@@ -1,3 +1,26 @@
+import csv
+
+# Read patient data from CSV file
+patients = []
+with open('patients_data.csv', newline='') as csvfile:
+    reader = csv.DictReader(csvfile)
+    for row in reader:
+        patients.append(row)
+
+# Generate HTML table rows
+table_rows = ''
+for patient in patients:
+    table_row = f'''
+        <tr>
+            <td>{patient['Name']}</td>
+            <td>{patient['Age']}</td>
+            <!-- Add more table cells for other patient attributes -->
+        </tr>
+    '''
+    table_rows += table_row
+
+# HTML template
+html_template = f'''
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,12 +42,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>John Doe</td>
-                <td>30</td>
-                <!-- Add more table rows for other patients -->
-            </tr>
+            {table_rows}
         </tbody>
     </table>
 </body>
 </html>
+'''
+
+# Write HTML content to index.html file
+with open('index.html', 'w') as htmlfile:
+    htmlfile.write(html_template)
+
+print('index.html generated successfully!')
